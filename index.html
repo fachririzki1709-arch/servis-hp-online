@@ -127,7 +127,6 @@
             <option value="Lainnya">Lainnya</option>
         </select>
         
-        <!-- MENGUBAH SELECT TIPE HP MENJADI INPUT MANUAL -->
         <label>Tipe HP</label>
         <input type="text" id="tipe" placeholder="Contoh: Galaxy A54 / Redmi Note 13 Pro / iPhone 11">
         
@@ -144,7 +143,7 @@
     <!-- STEP 3: BAYAR DP -->
     <div class="content-box" id="step-3">
         <h3>💳 Pembayaran Uang Muka (DP)</h3>
-        <p>Kode Pesanan: <strong id="kodePesananDP">-</strong></p>
+        <p>Kode Pesanan: <strong id="kodePesananDP">-</strong> <button class="btn btn-secondary" onclick="salinKodePesanan()" style="padding: 0.2rem 0.5rem; margin-left: 5px; font-size: 0.8rem; display: inline-block; margin-top:0;">📋 Salin</button></p>
         <p>Untuk memproses pencarian dan pengiriman teknisi, silakan melakukan pembayaran DP sebesar: <strong style="color: #db2777; font-size: 1.2rem;">Rp 50.000</strong></p>
         
         <div class="alert-bahaya">
@@ -176,7 +175,7 @@
     <!-- STEP 4: JADWAL -->
     <div class="content-box" id="step-4">
         <h3>📅 Jadwal & Lokasi Servis</h3>
-        <p>Kode Pesanan: <strong id="kodePesanan">-</strong></p>
+        <p>Kode Pesanan: <strong id="kodePesanan">-</strong> <button class="btn btn-secondary" onclick="salinKodePesanan()" style="padding: 0.2rem 0.5rem; margin-left: 5px; font-size: 0.8rem; display: inline-block; margin-top:0;">📋 Salin</button></p>
         <div id="infoJadwal">
             <p>Status: Menunggu admin mengatur jadwal kunjungan teknisi.</p>
         </div>
@@ -200,7 +199,7 @@
             <p>Ada penambahan biaya pengerjaan sebesar: <strong style="color:#c2410c; font-size:1.1rem;">Rp <span id="txtBiayaTambahan">0</span></strong></p>
             
             <div class="alert-bahaya" style="font-size:0.85rem; margin:0.8rem 0;">
-                If Anda <strong>MENOLAK</strong> pengerjaan tambahan ini, proses servis dihentikan dan <strong>Uang DP Anda hangus</strong>.
+                Jika Anda <strong>MENOLAK</strong> pengerjaan tambahan ini, proses servis dihentikan dan <strong>Uang DP Anda hangus</strong>.
             </div>
             
             <div style="margin-top:1rem;" id="aksiTambahan">
@@ -319,8 +318,51 @@
         "Tunai": {no: "-", bank: "-"}
     };
 
-    // FUNGSI UPDATE TIPE DISEDERHANAKAN KARENA TIDAK DIGUNAKAN LAGI
     function updateTipe() { }
+
+    function salinKodePesanan() {
+        if (!kodeSaya) {
+            alert("Belum ada kode pesanan yang aktif.");
+            return;
+        }
+        navigator.clipboard.writeText(kodeSaya).then(() => {
+            alert("✅ Kode pesanan " + kodeSaya + " berhasil disalin!");
+        }).catch(err => {
+            const tempInput = document.createElement("input");
+            tempInput.value = kodeSaya;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            alert("✅ Kode pesanan " + kodeSaya + " berhasil disalin!");
+        });
+    }
+
+    function tanyaKodeLacak() {
+        navigator.clipboard.readText().then(text => {
+            const kodeDefault = text.trim().startsWith("HS-") ? text.trim() : (kodeSaya || "");
+            prosesPromptLacak(kodeDefault);
+        }).catch(() => {
+            prosesPromptLacak(kodeSaya || "");
+        });
+    }
+
+    function prosesPromptLacak(defaultText) {
+        const kode = prompt("Masukkan Kode Pesanan Anda (Gunakan Ctrl+V jika sudah menyalin):", defaultText);
+        if(kode) {
+            let semua = JSON.parse(localStorage.getItem("daftarPesanan") || "{}");
+            if(semua[kode.trim()]) {
+                kodeSaya = kode.trim();
+                localStorage.setItem("kodeAktifPelanggan", kodeSaya);
+                document.getElementById("kodePesananDP").textContent = kodeSaya;
+                document.getElementById("kodePesanan").textContent = kodeSaya;
+                aktifkanSistemChat();
+                cekStatus();
+            } else {
+                alert("❌ Kode pesanan tidak ditemukan!");
+            }
+        }
+    }
 
     function tampilPratinjau() {
         const fileInput = document.getElementById("fileKondisi");
@@ -372,7 +414,7 @@
             wa: document.getElementById("wa").value.trim(),
             alamat: document.getElementById("alamat").value.trim(),
             merek: document.getElementById("merek").value,
-            tipe: document.getElementById("tipe").value.trim(), // MEMBACA NILAI DARI INPUT MANUAL
+            tipe: document.getElementById("tipe").value.trim(),
             kerusakan: document.getElementById("kerusakan").value.trim(),
             layanan: layananTerpilih || "Belum dipilih",
             status: "baru",
@@ -439,26 +481,6 @@
         localStorage.setItem("daftarPesanan", JSON.stringify(semua));
         alert("✅ Konfirmasi DP tersimpan. Silakan tunggu validasi admin sebelum penjadwalan.");
         cekStatus();
-    }
-
-    function tanyaKodeLacak() {
-        const kode = prompt("Masukkan Kode Pesanan Anda:");
-        if(kode) {
-            let semua = JSON.parse(localStorage.getItem("daftarPesanan") || "{}");
-            if(semua[kode]) {
-                kodeSaya = kode;
-                
-                localStorage.setItem("kodeAktifPelanggan", kodeSaya);
-                
-                document.getElementById("kodePesananDP").textContent = kodeSaya;
-                document.getElementById("kodePesanan").textContent = kodeSaya;
-                
-                aktifkanSistemChat();
-                cekStatus();
-            } else {
-                alert("❌ Kode pesanan tidak ditemukan!");
-            }
-        }
     }
 
     function responsTambahan(setuju) {
@@ -677,7 +699,6 @@
         document.getElementById("fakturTotal").textContent = "Rp " + (data.biayaSuku + data.biayaJasa + tambahan).toLocaleString("id-ID");
     }
 
-    // Fungsi unduh PDF disesuaikan agar membaca data tipe teks manual
     function unduhPDF() {
         if (typeof window.jspdf === "undefined") {
             alert("⏳ Memuat fitur PDF, silakan coba lagi...");
