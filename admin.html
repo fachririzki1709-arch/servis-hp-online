@@ -4,73 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin - Home Service HP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
     <style>
-        * {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif;}
+        * {margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif;}
         body {background:#f1f5f9; color:#1e293b;}
-        header {background:#0f172a; color:white; padding:1rem 5%; display:flex; justify-content:space-between; align-items:center;}
-        .logo {font-size:1.4rem; font-weight:bold;}
-        .container {max-width:1200px; margin:2rem auto; padding:0 5%;}
-        h1 {margin-bottom:1.5rem; font-size:1.5rem;}
+        
+        header {
+            background:#0f172a; color:white; padding:1.2rem 5%; 
+            display:flex; justify-content:space-between; align-items:center;
+            border-bottom: 3px solid #10b981; box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .logo {font-size:1.4rem; font-weight:700;}
+        .container {max-width:1200px; margin:2.5rem auto; padding:0 5%;}
+        h1 {margin-bottom:1.5rem; font-size:1.6rem; font-weight: 700; color:#0f172a;}
 
-        .ringkasan {display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1rem; margin-bottom:2rem;}
-        .kartu {background:white; padding:1.2rem; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); border-left:4px solid #0ea5e9;}
-        .kartu h3 {font-size:1rem; color:#64748b; margin-bottom:0.5rem;}
-        .kartu .angka {font-size:2rem; font-weight:bold;}
+        /* Desain Summary Cards Dashboard */
+        .ringkasan {display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1.2rem; margin-bottom:2.5rem;}
+        .kartu {background:white; padding:1.5rem; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.02); border-left:5px solid #0ea5e9; transition: transform 0.2s;}
+        .kartu:hover {transform: translateY(-2px);}
+        .kartu h3 {font-size:0.88rem; font-weight:600; color:#64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom:0.5rem;}
+        .kartu .angka {font-size:2.2rem; font-weight:700; color: #1e293b;}
 
-        .kontrol-fitur {display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); flex-wrap: wrap; gap: 1rem;}
-        .filter-grup {display:flex; align-items:center; gap:0.5rem;}
-        .filter-grup label {font-size:0.9rem; font-weight:500; color:#475569;}
-        .filter-grup select, .filter-grup input[type="date"] {padding:0.4rem 0.8rem; border:1px solid #cbd5e1; border-radius:4px; font-size:0.85rem; background: white; cursor: pointer;}
+        .kontrol-fitur {display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; background: white; padding: 1.2rem; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); flex-wrap: wrap; gap: 1rem;}
+        .filter-grup {display:flex; align-items:center; gap:0.6rem;}
+        .filter-grup label {font-size:0.9rem; font-weight:600; color:#475569;}
+        .filter-grup select, .filter-grup input[type="date"] {padding:0.5rem 1rem; border:2px solid #e2e8f0; border-radius:6px; font-size:0.88rem; background: white; cursor: pointer; outline:none;}
+        .filter-grup select:focus, .filter-grup input[type="date"]:focus {border-color:#0ea5e9;}
 
-        table {width:100%; border-collapse:collapse; background:white; border-radius:8px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
-        th,td {padding:0.8rem; text-align:left; border-bottom:1px solid #e2e8f0; font-size:0.9rem;}
-        th {background:#f8fafc; font-weight:600;}
-        .status {padding:0.25rem 0.6rem; border-radius:20px; font-size:0.8rem; font-weight:500;}
-        .baru {background:#dbeafe; color:#1e40af;}
-        .dijadwalkan {background:#fef3c7; color:#92400e;}
-        .diproses {background:#ecfccb; color:#3f6212;}
-        .selesai_servis {background:#bfdbfe; color:#1e40af;}
-        .menunggu_validasi {background:#f3e8ff; color:#6b21a8;}
-        .selesai {background:#dcfce7; color:#166534;}
-        .belum_dp {background:#fee2e2; color:#991b1b;}
+        /* Desain Tabel Modern Tanpa Garis Vertikal */
+        table {width:100%; border-collapse:collapse; background:white; border-radius:12px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.03);}
+        th,td {padding:1rem 1.2rem; text-align:left; border-bottom:1px solid #e2e8f0; font-size:0.92rem;}
+        th {background:#f8fafc; font-weight:600; color:#64748b; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.05em;}
+        tr:hover {background-color: #f8fafc;}
+        
+        .status {padding:0.3rem 0.75rem; border-radius:30px; font-size:0.78rem; font-weight:700; text-transform: uppercase;}
+        .baru {background:#e0f2fe; color:#0369a1;}
+        .dijadwalkan {background:#fef3c7; color:#d97706;}
+        .diproses {background:#ecfccb; color:#4d7c0f;}
+        .selesai_servis {background:#dbeafe; color:#2563eb;}
+        .menunggu_validasi {background:#f3e8ff; color:#7e22ce;}
+        .selesai {background:#dcfce7; color:#15803d;}
+        .belum_dp {background:#fee2e2; color:#b91c1c;}
         .batal {background:#fef2f2; color:#ef4444; border:1px solid #fee2e2;}
 
-        .btn {padding:0.4rem 0.8rem; border:none; border-radius:4px; cursor:pointer; font-size:0.85rem; margin-right:0.3rem;}
+        .btn {padding:0.5rem 1rem; border:none; border-radius:6px; cursor:pointer; font-size:0.85rem; font-weight:600; margin-right:0.3rem; transition: all 0.2s;}
+        .btn:hover {transform: translateY(-1px);}
         .btn-edit {background:#0ea5e9; color:white;}
         .btn-validasi {background:#10b981; color:white;}
         .btn-hapus {background:#ef4444; color:white;}
 
-        .modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; overflow:auto;}
-        .modal-konten {background:white; width:90%; max-width:950px; margin:3% auto; padding:2rem; border-radius:8px; position:relative;}
-        .tutup {position:absolute; right:1rem; top:1rem; font-size:1.5rem; cursor:pointer;}
-        input, select, textarea {width:100%; padding:0.7rem; margin:0.5rem 0 1rem; border:1px solid #cbd5e1; border-radius:4px;}
-        input:disabled, select:disabled {background:#f1f5f9; color:#64748b;}
-        .pratinjau {margin:1rem 0; padding:1rem; border:1px dashed #cbd5e1; border-radius:6px; text-align:center;}
-        .pratinjau img, .pratinjau video {max-width:100%; max-height:300px; border-radius:4px;}
-        .box-dp {background:#fff7ed; padding:1rem; border-radius:6px; border:1px solid #ffedd5; margin-bottom:1rem;}
-        .box-tambahan-admin {background:#f0fdf4; border:1px solid #bbf7d0; padding:1rem; border-radius:6px; margin:1rem 0;}
+        /* Modal Dialog Box */
+        .modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.4); z-index:1000; overflow:auto; backdrop-filter: blur(4px);}
+        .modal-konten {background:white; width:92%; max-width:980px; margin:3% auto; padding:2.2rem; border-radius:12px; position:relative; box-shadow: 0 20px 40px rgba(0,0,0,0.1);}
+        .tutup {position:absolute; right:1.2rem; top:1.2rem; font-size:1.6rem; cursor:pointer; color:#94a3b8; transition:color 0.2s;}
+        .tutup:hover {color:#64748b;}
+        
+        input, select, textarea {width:100%; padding:0.7rem 1rem; margin:0.5rem 0 1.2rem; border:2px solid #e2e8f0; border-radius:6px; outline:none; font-size:0.95rem;}
+        input:focus, select:focus, textarea:focus {border-color:#0ea5e9;}
+        input:disabled, select:disabled {background:#f1f5f9; color:#64748b; border-color:#e2e8f0;}
+        
+        .pratinjau {margin:1rem 0; padding:1rem; border:2px dashed #cbd5e1; border-radius:8px; text-align:center; background:#f8fafc;}
+        .pratinjau img, .pratinjau video {max-width:100%; max-height:280px; border-radius:6px;}
+        .box-dp {background:#fff7ed; padding:1.2rem; border-radius:8px; border:1px solid #ffedd5; margin-bottom:1.2rem;}
+        .box-tambahan-admin {background:#f0fdf4; border:1px solid #bbf7d0; padding:1.2rem; border-radius:8px; margin:1.2rem 0;}
 
-        /* LAYOUT CHAT DI MODAL ADMIN */
-        .chat-admin-container {border: 1px solid #cbd5e1; border-radius: 6px; background: #f8fafc; display: flex; flex-direction: column; height: 350px; margin-top: 1rem;}
-        .chat-admin-msg-box {flex: 1; overflow-y: auto; padding: 1rem;}
-        .chat-admin-input-row {display: flex; border-top: 1px solid #cbd5e1; background: white; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;}
-        .chat-admin-input-row input {border: none; padding: 0.6rem; margin: 0; flex: 1;}
-        .chat-admin-input-row button {background: #10b981; color: white; border: none; padding: 0 1.2rem; cursor: pointer; font-weight: bold;}
-        .msg-bubble {margin-bottom: 0.8rem; max-width: 85%; padding: 0.5rem 0.7rem; border-radius: 6px; font-size: 0.85rem;}
-        .msg-admin {background: #dcfce7; color: #15803d; margin-left: auto; text-align: right; border-right: 3px solid #10b981;}
-        .msg-user {background: #e0f2fe; color: #0369a1; margin-right: auto; border-left: 3px solid #0ea5e9;}
+        /* Ruang Diskusi Live Chat di Admin */
+        .chat-admin-container {border: 2px solid #e2e8f0; border-radius: 8px; background: #f8fafc; display: flex; flex-direction: column; height: 350px; margin-top: 1rem; overflow:hidden;}
+        .chat-admin-msg-box {flex: 1; overflow-y: auto; padding: 1rem; display:flex; flex-direction:column; gap:0.6rem;}
+        .chat-admin-input-row {display: flex; border-top: 2px solid #e2e8f0; background: white;}
+        .chat-admin-input-row input {border: none !important; padding: 0.8rem; margin: 0; flex: 1; background:white;}
+        .chat-admin-input-row button {background: #10b981; color: white; border: none; padding: 0 1.5rem; cursor: pointer; font-weight: 600;}
+        
+        .msg-bubble {max-width: 82%; padding: 0.6rem 0.9rem; border-radius: 12px; font-size: 0.88rem; box-shadow:0 2px 4px rgba(0,0,0,0.02);}
+        .msg-admin {background: #10b981; color: white; align-self: flex-end; border-bottom-right-radius: 2px;}
+        .msg-user {background: white; color: #1e293b; align-self: flex-start; border-bottom-left-radius: 2px; border:1px solid #e2e8f0;}
 
-        /* CSS BARU UNTUK FITUR LOGIN & LOGOUT */
+        /* Layar Kunci Login Safeguard */
         .login-overlay {position:fixed; top:0; left:0; width:100%; height:100%; background:#0f172a; display:flex; justify-content:center; align-items:center; z-index:9999;}
-        .login-box {background:white; padding:2.5rem; border-radius:10px; width:100%; max-width:400px; box-shadow:0 10px 25px rgba(0,0,0,0.3); text-align:center;}
-        .login-box h2 {margin-bottom:0.5rem; color:#0f172a; font-size:1.6rem;}
-        .login-box p {color:#64748b; font-size:0.9rem; margin-bottom:1.5rem;}
-        .login-box .btn-login {width:100%; padding:0.8rem; background:#0ea5e9; color:white; border:none; border-radius:6px; font-weight:bold; font-size:1rem; cursor:pointer; margin-top:0.5rem;}
-        .login-box .btn-login:hover {background:#0284c7;}
-        .error-msg {color:#ef4444; font-size:0.85rem; margin-top:0.5rem; display:none; font-weight:500;}
-        .btn-logout {background:#ef4444; color:white; font-size:0.85rem; padding:0.4rem 0.8rem; border:none; border-radius:4px; cursor:pointer; font-weight:600; margin-left: 10px;}
-        .btn-logout:hover {background:#dc2626;}
-        #mainPanelWrapper {display:none;} /* Menyembunyikan isi panel sebelum login sukses */
+        .login-box {background:white; padding:2.5rem; border-radius:12px; width:100%; max-width:400px; box-shadow:0 20px 40px rgba(0,0,0,0.3); text-align:center;}
+        .login-box h2 {margin-bottom:0.5rem; color:#0f172a; font-size:1.6rem; font-weight:700;}
+        .login-box p {color:#64748b; font-size:0.9rem; margin-bottom:1.8rem;}
+        .login-box .btn-login {width:100%; padding:0.8rem; background:linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); color:white; border:none; border-radius:6px; font-weight:700; font-size:1rem; cursor:pointer; margin-top:0.5rem; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);}
+        .error-msg {color:#ef4444; font-size:0.85rem; margin-top:0.5rem; display:none; font-weight:600;}
+        .btn-logout {background:#ef4444; color:white; font-size:0.85rem; padding:0.5rem 1rem; border:none; border-radius:6px; cursor:pointer; font-weight:600; margin-left: 10px;}
+        #mainPanelWrapper {display:none;}
     </style>
 </head>
 <body>
@@ -95,7 +116,7 @@
     <header>
         <div class="logo">⚙️ Panel Admin Servis HP</div>
         <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <div style="font-size:0.85rem; background:#1e293b; padding:0.4rem 0.8rem; border-radius:4px; color:#10b981; font-weight:bold;">● Auto-Reload Aktif</div>
+            <div style="font-size:0.82rem; background:#1e293b; padding:0.5rem 0.8rem; border-radius:6px; color:#10b981; font-weight:700; display:flex; align-items:center; gap:5px;"><span style="width:7px; height:7px; background:#10b981; border-radius:50%; display:inline-block;"></span> Live Sync</div>
             <button class="btn-logout" onclick="prosesLogout()">Keluar 🚪</button>
         </div>
     </header>
@@ -103,19 +124,19 @@
         <h1>Daftar Pesanan Servis</h1>
         <div class="ringkasan">
             <div class="kartu"><h3>Pesanan Baru</h3><div class="angka" id="jmlBaru">0</div></div>
-            <div class="kartu"><h3>Dijadwalkan</h3><div class="angka" id="jmlJadwal">0</div></div>
-            <div class="kartu"><h3>Diproses</h3><div class="angka" id="jmlProses">0</div></div>
-            <div class="kartu"><h3>Menunggu Validasi</h3><div class="angka" id="jmlValidasi">0</div></div>
+            <div class="kartu" style="border-left-color: #f59e0b;"><h3>Dijadwalkan</h3><div class="angka" id="jmlJadwal">0</div></div>
+            <div class="kartu" style="border-left-color: #10b981;"><h3>Diproses</h3><div class="angka" id="jmlProses">0</div></div>
+            <div class="kartu" style="border-left-color: #a855f7;"><h3>Perlu Validasi</h3><div class="angka" id="jmlValidasi">0</div></div>
         </div>
 
         <div class="kontrol-fitur">
             <div class="filter-grup">
-                <label for="filterTanggalKalender">📅 Filter Kalender (Jadwal Kerja):</label>
+                <label for="filterTanggalKalender"><i class="bi bi-calendar-check"></i> Filter Hari Kerja:</label>
                 <input type="date" id="filterTanggalKalender" onchange="muatData()">
-                <button class="btn btn-secondary" onclick="resetFilterKalender()" style="margin-left:5px; padding:0.3rem 0.6rem;">Reset ❌</button>
+                <button class="btn btn-secondary" onclick="resetFilterKalender()" style="margin-left:5px; padding:0.4rem 0.8rem;">Reset</button>
             </div>
             <div class="filter-grup">
-                <label for="urutTanggal">Urutan Input:</label>
+                <label for="urutTanggal">Urutan Agenda:</label>
                 <select id="urutTanggal" onchange="muatData()">
                     <option value="terbaru">Terbaru (Paling Atas)</option>
                     <option value="terlama">Terlama (Paling Bawah)</option>
@@ -142,20 +163,20 @@
     <div class="modal" id="modalKelola">
         <div class="modal-konten">
             <span class="tutup" onclick="tutupModal()">&times;</span>
-            <h3>Kelola Pesanan (<span id="txtKodeHeader">-</span>)</h3>
+            <h3 style="font-size:1.3rem; font-weight:700;">Kelola Order (<span id="txtKodeHeader">-</span>)</h3>
             <input type="hidden" id="kodePesanan">
 
-            <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:1.5rem; margin-top:1rem;">
+            <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:1.8rem; margin-top:1.2rem;">
                 <div>
                     <div class="box-dp">
-                        <h4>🔒 Langkah 1: Validasi DP Pelanggan</h4>
-                        <p style="font-size:0.85rem; margin-bottom:0.5rem;">Metode Bayar DP: <strong id="txtMetodeDP">-</strong></p>
+                        <h4 style="font-size:0.95rem; font-weight:700; color:#c2410c; margin-bottom:5px;">🔒 Langkah 1: Validasi Uang Muka (DP)</h4>
+                        <p style="font-size:0.85rem; margin-bottom:0.8rem;">Metode Transfer DP: <strong id="txtMetodeDP">-</strong></p>
                         <button class="btn btn-validasi" id="btnApproveDP" onclick="validasiDP(true)">Setujui DP Lunas</button>
                         <button class="btn btn-hapus" id="btnTolakDP" onclick="validasiDP(false)">Tolak DP</button>
                     </div>
 
                     <div id="wrapperPenjadwalan">
-                        <h4>📅 Langkah 2: Jadwal & Lokasi Kerja</h4>
+                        <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:5px;">📅 Langkah 2: Atur Penjadwalan Teknisi</h4>
                         <label>Lokasi Perbaikan HP:</label>
                         <select id="lokasiServis">
                             <option value="home_service">Service di Rumah Pelanggan (On-Site)</option>
@@ -183,55 +204,57 @@
                         <input type="datetime-local" id="jadwal">
 
                         <div class="box-tambahan-admin" id="boxInputTambahan">
-                            <h4>🔧 Temuan Kerusakan Tambahan (Update Lapangan)</h4>
-                            <p style="font-size:0.8rem; color:#475569; margin-bottom:0.4rem;">Gunakan ini jika teknisi mendapati komponen rusak lain saat proses servis sedang berjalan.</p>
+                            <h4 style="font-size:0.95rem; font-weight:700; color:#15803d; margin-bottom:3px;">🔧 Laporkan Temuan Rusak Tambahan</h4>
+                            <p style="font-size:0.8rem; color:#475569; margin-bottom:0.6rem;">Aktifkan jika teknisi butuh tambahan part di lapangan.</p>
                             
-                            <label><input type="checkbox" id="chkAdaTambahan" onchange="toggleFormTambahan()"> Aktifkan Biaya Tambahan</label>
+                            <label style="font-weight:600;"><input type="checkbox" id="chkAdaTambahan" onchange="toggleFormTambahan()" style="width:auto; margin-right:5px;"> Aktifkan Komponen Tambahan</label>
                             
                             <div id="subFormTambahan" style="display:none; margin-top:0.5rem;">
-                                <label>Nama Komponen / Kerusakan Baru</label>
-                                <input type="text" id="infoTambahan" placeholder="Contoh: IC Power Korosi, Backdoor Retak">
-                                <label>Biaya Tambahan Suku Cadang/Jasa (Rp)</label>
+                                <label>Komponen / Kendala Baru</label>
+                                <input type="text" id="infoTambahan" placeholder="Contoh: IC Power Lemah">
+                                <label>Harga Tambahan Part/Jasa (Rp)</label>
                                 <input type="number" id="biayaTambahan" placeholder="0" oninput="hitungTotal()">
-                                <p style="font-size:0.85rem; margin-top:0.3rem;">Status Respon Pelanggan: <span id="txtResponPelanggan" style="font-weight:bold; color:#2563eb;">PENDING</span></p>
+                                <p style="font-size:0.85rem; margin-top:0.3rem;">Status Persetujuan User: <strong id="txtResponPelanggan" style="color:#2563eb;">PENDING</strong></p>
                             </div>
                         </div>
 
-                        <hr style="margin:1rem 0;">
-                        <h4>💰 Langkah 3: Rincian Biaya Pokok & Pelunasan</h4>
+                        <hr style="margin:1rem 0; border-color:#e2e8f0;">
+                        <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:5px;">💰 Langkah 3: Hitung Rincian Nota Pokok</h4>
                         <label>Biaya Suku Cadang Pokok (Rp)</label>
                         <input type="number" id="biayaSuku" placeholder="0" oninput="hitungTotal()">
                         <label>Biaya Jasa Servis Pokok (Rp)</label>
                         <input type="number" id="biayaJasa" placeholder="0" oninput="hitungTotal()">
                         
-                        <p style="font-weight:bold; color:#1e40af;">Subtotal Tagihan Pokok: Rp <span id="totalTampilPokok">0</span></p>
-                        <p style="font-weight:bold; color:#c2410c;" id="rowTampilTambahanAdmin">Subtotal Tambahan Disetujui: Rp <span id="totalTampilTambahan">0</span></p>
-                        <p style="font-size:0.85rem; color:#16a34a;">Potongan Uang Muka (DP): -Rp 50.000</p>
-                        <hr style="margin:0.5rem 0;">
-                        <p style="font-size:1.1rem; font-weight:bold; color:#111827;">Sisa Bersih Pelunasan: Rp <span id="totalTampil">0</span></p>
+                        <div style="background:#f8fafc; padding:0.8rem; border-radius:6px; margin-top:0.5rem;">
+                            <p style="font-size:0.88rem; font-weight:600; color:#1e40af;">Subtotal Tagihan Pokok: Rp <span id="totalTampilPokok">0</span></p>
+                            <p style="font-size:0.88rem; font-weight:600; color:#c2410c;" id="rowTampilTambahanAdmin">Subtotal Tambahan Disetujui: Rp <span id="totalTampilTambahan">0</span></p>
+                            <p style="font-size:0.85rem; color:#16a34a;">Potongan Uang Muka (DP): -Rp 50.000</p>
+                            <hr style="margin:0.4rem 0; border-color:#cbd5e1;">
+                            <p style="font-size:1.05rem; font-weight:700; color:#111827;">Sisa Bersih Pelunasan: Rp <span id="totalTampil">0</span></p>
+                        </div>
 
-                        <hr style="margin:1rem 0;">
-                        <p><strong>Metode Pelunasan Sisa:</strong> <span id="metodeBayarTampil">-</span></p>
-                        <button class="btn btn-validasi" id="btnValidasi" onclick="validasiPembayaranPelunasan()" style="margin-top:1rem;">Validasi Lunas Sisa</button>
+                        <hr style="margin:1rem 0; border-color:#e2e8f0;">
+                        <p style="font-size:0.9rem;"><strong>Metode Transfer Pelunasan:</strong> <span id="metodeBayarTampil" style="font-weight:600;">-</span></p>
+                        <button class="btn btn-validasi" id="btnValidasi" onclick="validasiPembayaranPelunasan()" style="margin-top:0.8rem; padding:0.6rem 1.2rem; width:100%;">Validasi Lunas Sisa</button>
                     </div>
 
                     <div style="margin-top:1.5rem; text-align:right;">
-                        <button class="btn btn-edit" style="padding:0.6rem 1.5rem;" onclick="simpanPerubahan()">Simpan Semua Data</button>
+                        <button class="btn btn-edit" style="padding:0.7rem 1.8rem;" onclick="simpanPerubahan()"><i class="bi bi-save"></i> Simpan Semua Data</button>
                     </div>
                 </div>
 
                 <div>
-                    <h4>Kondisi HP Awal Pelanggan</h4>
+                    <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:5px;">Dokumen Foto Unit Masuk</h4>
                     <div class="pratinjau" id="tampilKondisiAdmin">Belum ada dokumen</div>
-                    <p><strong>Kerusakan/Keluhan Awal:</strong></p>
-                    <textarea id="keluhanAdmin" rows="2" readonly style="background:#f8fafc; font-size:0.85rem; margin-bottom:0.5rem;"></textarea>
+                    <p style="font-size:0.85rem;"><strong>Catatan Kerusakan Pelanggan:</strong></p>
+                    <textarea id="keluhanAdmin" rows="2" readonly style="background:#f8fafc; font-size:0.85rem; margin-top:5px; border-color:#e2e8f0; color:#475569;"></textarea>
 
-                    <h4 style="margin-top:1rem; border-top:2px dashed #cbd5e1; padding-top:1rem;">💬 Hubungi Pelanggan via Live Chat</h4>
+                    <h4 style="margin-top:1.2rem; border-top:2px dashed #cbd5e1; padding-top:1rem; font-size:0.95rem; font-weight:700;"><i class="bi bi-chat-text-fill" style="color:#10b981;"></i> Jalur Chat Live Pelanggan</h4>
                     <div class="chat-admin-container">
                         <div class="chat-admin-msg-box" id="boxPesanAdmin"></div>
                         <div class="chat-admin-input-row">
-                            <input type="text" id="inputPesanAdmin" placeholder="Balas pesan pelanggan di sini..." onkeypress="aksiEnterChatAdmin(event)">
-                            <button onclick="kirimChatAdmin()">Kirim</button>
+                            <input type="text" id="inputPesanAdmin" placeholder="Ketik balasan pesan..." onkeypress="aksiEnterChatAdmin(event)">
+                            <button onclick="kirimChatAdmin()"><i class="bi bi-send-fill"></i></button>
                         </div>
                     </div>
                 </div>
@@ -241,9 +264,7 @@
 </div>
 
 <script>
-    // ==========================================
-    // LOGIKA TAMBAHAN: SELEKTOR LOGIN & LOGOUT
-    // ==========================================
+    // [LOGIKA SCRIPT PANEL ADMIN SAMA PERSIS SEPERTI SEBELUMNYA]
     const KREDENSIAL_ADMIN = {
         id: "admin",
         password: "admin123"
@@ -289,10 +310,6 @@
         }
     }
 
-    // ==========================================
-    // DI BAWAH INI ADALAH FITUR ASLI KODE INDUK
-    // TIDAK ADA LOGIKA YANG DIUBAH ATAU DIKURANGI
-    // ==========================================
     let cacheStringData = ""; 
     let aktifMembukaKode = ""; 
 
@@ -367,6 +384,12 @@
         muatData();
     }
 
+    function toggleFormTambahan() {
+        const checked = document.getElementById("chkAdaTambahan").checked;
+        document.getElementById("subFormTambahan").style.display = checked ? "block" : "none";
+        hitungTotal();
+    }
+
     function ubahNamaStatus(d) {
         if(d.status === "ditolak_pelanggan") return "BATAL (TOLAK BIAYA)";
         if(d.pembayaranValid) return "SELESAI (LUNAS)";
@@ -390,12 +413,6 @@
                 muatData();
             }
         }
-    }
-
-    function toggleFormTambahan() {
-        const checked = document.getElementById("chkAdaTambahan").checked;
-        document.getElementById("subFormTambahan").style.display = checked ? "block" : "none";
-        hitungTotal();
     }
 
     function bukaModal(kode) {
@@ -587,7 +604,7 @@
         chatData.forEach(msg => {
             let kelasBubble = msg.pengirim === 'admin' ? 'msg-admin' : 'msg-user';
             let labelNama = msg.pengirim === 'admin' ? '👨‍💻 Anda (Admin)' : '📱 Pelanggan';
-            htmlStr += `<div class="msg-bubble ${kelasBubble}"><strong>${labelNama}:</strong><br>${msg.teks}<br><span style="font-size:0.65rem; opacity:0.6;">${msg.waktu}</span></div>`;
+            htmlStr += `<div class="msg-bubble ${kelasBubble}"><strong>${labelNama}:</strong><br>${msg.teks}<br><span style="font-size:0.65rem; opacity:0.5; display:block; text-align:right; margin-top:2px;">${msg.waktu}</span></div>`;
         });
         
         if(box.innerHTML !== htmlStr) {
@@ -612,7 +629,6 @@
         }
     }
 
-    // Inisialisasi awal saat halaman diakses
     window.onload = function() {
         cekStatusSesi();
         setInterval(engineAutoReload, 2000); 
